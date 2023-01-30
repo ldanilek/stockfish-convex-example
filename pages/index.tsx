@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react'
-import { useMutation, useQuery } from '../convex/_generated/react'
+import { useAction, useMutation, useQuery } from '../convex/_generated/react'
 
 export default function App() {
   const messages = useQuery('listMessages') || []
@@ -8,6 +8,7 @@ export default function App() {
   const sendMessage = useMutation('sendMessage')
 
   const [name, setName] = useState('user')
+  const runStockfish = useAction('actions/runStockfish');
 
   useEffect(() => {
     setName('User ' + Math.floor(Math.random() * 10000))
@@ -16,7 +17,8 @@ export default function App() {
   async function handleSendMessage(event: FormEvent) {
     event.preventDefault()
     setNewMessageText('')
-    await sendMessage(newMessageText, name)
+    await sendMessage(newMessageText, name);
+    await runStockfish();
   }
   return (
     <main>
